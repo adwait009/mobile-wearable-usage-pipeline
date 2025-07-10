@@ -113,6 +113,47 @@ Automated tools rely on these messages to generate changelogs and semantic versi
 * ✅ Documentation updated (README, diagrams, dbt docs, etc.).
 * ✅ At least one reviewer approved; NO self-merges unless trivial docs.
 
+### 4.4 Release & Tagging
+`main` is our release branch.  We create a **semantic version tag** (`vMAJOR.MINOR.PATCH`) each time `main` reaches a stable milestone:
+
+1. Merge the feature/fix PR using **squash-and-merge** (keeps history tidy).
+2. Locally (or via CI once we wire it up) run:
+
+    ```bash
+    git pull origin main            # ensure up-to-date
+    git tag -a vX.Y.Z -m "<CHANGELOG entry>"
+    git push origin vX.Y.Z
+    ```
+
+    • **PATCH** – backward-compatible bug-fixes (`fix:` commits)  
+    • **MINOR** – backward-compatible new features (`feat:` commits)  
+    • **MAJOR** – breaking changes (include `BREAKING CHANGE:` footer).
+
+3. The tag triggers the release workflow (to be added) that will publish the changelog and artefacts.
+
+> **What’s a “changelog entry”?**  
+> A short, human-readable bullet that will appear in the next release notes.  
+> Follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) style and group by change type.
+
+Example tag message / release notes:
+
+```markdown
+## [v0.2.0] – 2025-02-02
+
+### Added
+* feat(android): foreground service for continuous usage tracking
+
+### Fixed
+* fix(db): correct timezone handling in session aggregation (#42)
+
+### Changed
+* chore(ci): migrate to GitHub Actions v4 runners
+```
+
+Use concise language; one line per notable change. The toolchain will insert these into `CHANGELOG.md` automatically once semantic-release is enabled. 
+
+🚧  **Planned automation** – Once the repository matures, we’ll integrate [semantic-release](https://github.com/semantic-release/semantic-release) to generate the changelog and tags automatically from Conventional Commit messages.  Until then, create tags manually using the steps above.
+
 ---
 
 ## 5. Code Style & Tooling
