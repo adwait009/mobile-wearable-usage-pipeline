@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "::add-path::${HOME}/.cargo/bin"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          uv pip install ruff
+      - name: Ruff Format Check
+        run: ruff format --check .
+      - name: Ruff Lint
+        run: ruff check .
+
+  kotlin-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
+      - name: Run ktlint & Android Lint
+        run: |
+          cd android
+          ./gradlew ktlintCheck lint
+
+  terraform-fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+      - name: Check Terraform format
+        run: terraform fmt -check -recursive
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: [python-lint]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv & test deps
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "::add-path::${HOME}/.cargo/bin"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install project requirements
+        run: |
+          uv pip install -r requirements.txt -r requirements-dev.txt
+      - name: Run pytest
+        run: pytest -q 
