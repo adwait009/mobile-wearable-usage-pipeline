@@ -32,7 +32,7 @@ _Target date: **Mon YYYY-MM-DD** (adjust once calendar is finalised)_
 ```
 / (root)
 ├── android/               # Kotlin collector app
-├── wearable_ingestion/         # GH-Actions script for Samsung Health
+├── wearable/              # GH-Actions script for Samsung Health
 ├── infrastructure/        # Terraform modules & env configs
 ├── dbt/                   # dbt project
 ├── notebooks/             # Colab & Jupyter analysis
@@ -50,8 +50,18 @@ _Target date: **Mon YYYY-MM-DD** (adjust once calendar is finalised)_
 | `.editorconfig` | Consistent whitespace/EOF rules |
 
 ### 5  Project Board Setup
-Columns: **Backlog → In Progress → Review → Done**  
-Labels: `area:android`, `area:data`, `infra`, `good first issue`, `documentation`, `bug`, `enhancement`.
+Columns: **Todo → In Progress → Review → Done**  
+_Backlog items are maintained in a **Backlog** table/board _view_ within the same GitHub Project; this sprint board tracks only the committed work._  
+
+**Custom labels** (extras beyond GitHub’s defaults):
+
+| Label | Description |
+|-------|-------------|
+| `area:android` | Android collector tasks |
+| `area:data` | Data ingestion & analytics |
+| `infra` | Infrastructure / CI / IaC |
+
+_GitHub’s default labels (`bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`) remain unchanged and should be used with their standard meanings_  
 
 ### 6  Action Items & Owners
 | Action | Owner | Due |
@@ -71,4 +81,4 @@ Labels: `area:android`, `area:data`, `infra`, `good first issue`, `documentation
 
 ---
 
-*(Update this entry with actual dates, links, and status once tasks are completed.)* 
+*(Update this entry with actual dates, links, and status once tasks are completed.)*

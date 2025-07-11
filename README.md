@@ -50,7 +50,7 @@ This installs the prototype collector on a connected device/emulator.
 ```
 mobile-wearable-usage-pipeline/
 ├── android/            # Kotlin foreground service
-├── wearable_ingestion/ # GH Actions workflow for Samsung Health
+├── wearable/ # GH Actions workflow for Samsung Health
 ├── infrastructure/     # Terraform modules & env configs
 ├── dbt/                # dbt project (models & tests)
 ├── docs/               # Architecture diagrams & docs
